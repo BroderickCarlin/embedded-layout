@@ -73,13 +73,14 @@ where
         H: HorizontalAlignment,
         V: VerticalAlignment,
     {
-        let self_bounds = self.bounds();
-        let reference_bounds = reference.bounds();
+        let self_bounds = self.bounding_box();
+        let reference_bounds = reference.bounding_box();
 
         let h = horizontal.align(self_bounds, reference_bounds);
         let v = vertical.align(self_bounds, reference_bounds);
 
-        self.translate_mut(Point::new(h, v))
+        self.translate_mut(Point::new(h, v));
+        self
     }
 }
 

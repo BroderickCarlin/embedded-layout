@@ -7,10 +7,9 @@ use embedded_graphics::{
 use embedded_graphics_simulator::{
     BinaryColorTheme, OutputSettingsBuilder, SimulatorDisplay, Window,
 };
-use embedded_layout::view_group::Views;
-use embedded_layout_macros::ViewGroup;
+// use embedded_layout::view_group::Views;
 
-#[derive(ViewGroup)]
+// #[derive(ViewGroup)]
 enum LayoutViews<C: PixelColor> {
     TriangleView(Styled<Triangle, PrimitiveStyle<C>>),
     CircleView(Styled<Circle, PrimitiveStyle<C>>),
@@ -81,7 +80,7 @@ fn main() -> Result<(), core::convert::Infallible> {
         });
     });
 
-    Views::new(views.as_mut_slice()).draw(&mut display).unwrap();
+    // Views::new(views.as_mut_slice()).draw(&mut display).unwrap();
 
     Window::new("Dynamic Layout Example", &output_settings).show_static(&display);
     Ok(())

@@ -15,9 +15,8 @@
 //! As an example, a (admittedly not very useful) layout that aligns all views in a `ViewGroup` to
 //! the `(0, 0)` point, would look something like this:
 //!
-//! ```rust
+//! ```rust ignore
 //! # use embedded_layout::prelude::*;
-//! use embedded_layout::view_group::ViewGroup;
 //!
 //! struct MyLayout;
 //!

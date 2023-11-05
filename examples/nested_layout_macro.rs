@@ -13,27 +13,26 @@ use embedded_layout::{
     layout::linear::{spacing::Tight, Horizontal, LinearLayout, Vertical},
     prelude::{horizontal::Center, vertical::Bottom, *},
 };
-use embedded_layout_macros::ViewGroup;
 
 // We need to make our Layout generic over the pixel color, because `derive(ViewGroup)` implements
 // `Drawable<C>` only if the struct has a PixelColor type parameter.
-#[derive(ViewGroup)]
-struct Layout<'txt, C: PixelColor> {
-    layout: LinearLayout<
-        Vertical<Center, Tight>,
-        chain! {
-            Text<'txt, MonoTextStyle<'static, C>>,
-            LinearLayout<Horizontal<Bottom, Tight>, chain! {
-                Styled<Triangle, PrimitiveStyle<C>>,
-                Styled<Circle, PrimitiveStyle<C>>
-            }>,
-            chain! {
-                Styled<Circle, PrimitiveStyle<C>>,
-                Styled<Triangle, PrimitiveStyle<C>>
-            }
-        },
-    >,
-}
+// #[derive(ViewGroup)]
+// struct Layout<'txt, C: PixelColor> {
+//     layout: LinearLayout<
+//         Vertical<Center, Tight>,
+//         chain! {
+//             Text<'txt, MonoTextStyle<'static, C>>,
+//             LinearLayout<Horizontal<Bottom, Tight>, chain! {
+//                 Styled<Triangle, PrimitiveStyle<C>>,
+//                 Styled<Circle, PrimitiveStyle<C>>
+//             }>,
+//             chain! {
+//                 Styled<Circle, PrimitiveStyle<C>>,
+//                 Styled<Triangle, PrimitiveStyle<C>>
+//             }
+//         },
+//     >,
+// }
 
 fn main() -> Result<(), core::convert::Infallible> {
     let mut display: SimulatorDisplay<BinaryColor> = SimulatorDisplay::new(Size::new(128, 64));
@@ -64,24 +63,24 @@ fn main() -> Result<(), core::convert::Infallible> {
     let text = Text::new("embedded-layout", Point::zero(), text_style);
 
     // The layout
-    let layout = Layout {
-        layout: LinearLayout::vertical(
-            Chain::new(text)
-                .append(LinearLayout::horizontal(Chain::new(triangle).append(circle)).arrange())
-                .append(Chain::new(circle2).append(triangle2.align_to(
-                    &circle2,
-                    horizontal::Center,
-                    vertical::Top,
-                ))),
-        )
-        .with_alignment(horizontal::Center)
-        .arrange(),
-    };
+    // let layout = Layout {
+    //     layout: LinearLayout::vertical(
+    //         Chain::new(text)
+    //             .append(LinearLayout::horizontal(Chain::new(triangle).append(circle)).arrange())
+    //             .append(Chain::new(circle2).append(triangle2.align_to(
+    //                 &circle2,
+    //                 horizontal::Center,
+    //                 vertical::Top,
+    //             ))),
+    //     )
+    //     .with_alignment(horizontal::Center)
+    //     .arrange(),
+    // };
 
-    layout
-        .align_to(&display_area, horizontal::Center, vertical::Center)
-        .draw(&mut display)
-        .unwrap();
+    // layout
+    //     .align_to(&display_area, horizontal::Center, vertical::Center)
+    //     .draw(&mut display)
+    //     .unwrap();
 
     Window::new("Layout example", &output_settings).show_static(&display);
     Ok(())

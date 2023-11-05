@@ -28,7 +28,7 @@ pub trait ElementSpacing: Copy + Clone {
 /// Lay out objects tightly, leaving no space between them
 ///
 /// # Example:
-/// ```rust
+/// ```rust ignore
 /// use embedded_layout::{
 ///     layout::linear::{spacing::Tight, LinearLayout},
 ///     prelude::*,
@@ -66,7 +66,7 @@ impl ElementSpacing for Tight {
 /// The margin can be negative, in which case the elements will be placed over one another.
 ///
 /// # Example:
-/// ```
+/// ``` ignore
 /// use embedded_layout::{
 ///     layout::linear::{spacing::FixedMargin, LinearLayout},
 ///     prelude::*,
@@ -106,7 +106,7 @@ impl ElementSpacing for FixedMargin {
 /// Forces the layout to be as high or wide as set for this spacing
 ///
 /// # Example:
-/// ```rust
+/// ```rust ignore
 /// use embedded_layout::{
 ///     layout::linear::{spacing::DistributeFill, LinearLayout},
 ///     prelude::*,

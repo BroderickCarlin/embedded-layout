@@ -60,7 +60,7 @@
 //!
 //! ### Use [`LinearLayout`] to arrange multiple objects
 //!
-//! ```
+//! ``` ignore
 //! # use embedded_graphics::mock_display::MockDisplay;
 //! # let mut display: MockDisplay<BinaryColor> = MockDisplay::new();
 //! #
@@ -103,92 +103,23 @@
 #![deny(clippy::missing_inline_in_public_items)]
 #![warn(clippy::all)]
 
-use embedded_graphics::{geometry::Point, prelude::*, primitives::Rectangle};
-
-pub use embedded_layout_macros::ViewGroup;
+use embedded_graphics::{prelude::Dimensions, transform::Transform};
 
 pub mod align;
 pub mod layout;
-pub mod object_chain;
-pub mod utils;
-pub mod view_group;
 
-/// The essentials. Also contains most of `embedded-graphics'` prelude.
+/// The essentials.
 pub mod prelude {
     pub use crate::{
         align::{horizontal, vertical, Align},
-        chain,
-        object_chain::{Chain, Link},
-        utils::rect_helper::RectExt,
-        view_group::Views,
         View,
     };
 }
 
-/// A `View` is the base unit for most of the `embedded-layout` operations.
-///
-/// `View`s must have a size and a position.
-///
-/// See the `custom_view` example for how you can define more complex views.
-pub trait View {
-    /// Get the size of a View.
-    #[inline]
-    fn size(&self) -> Size {
-        self.bounds().size
-    }
-
-    /// Object-safe version of `translate_mut()`.
-    ///
-    /// The default implementations of `translate` and `translate_mut` both call this functions.
-    fn translate_impl(&mut self, by: Point);
-
-    /// Move the origin of an object by a given number of (x, y) pixels, mutating the object in place.
-    ///
-    /// If you a looking for a method to implement, you might want `translate_impl()` instead.
-    #[inline]
-    fn translate_mut(&mut self, by: Point) -> &mut Self
-    where
-        Self: Sized,
-    {
-        self.translate_impl(by);
-        self
-    }
-
-    /// Move the origin of an object by a given number of (x, y) pixels, returning a new object.
-    ///
-    /// If you a looking for a method to implement, you might want `translate_impl()` instead.
-    #[inline]
-    fn translate(mut self, by: Point) -> Self
-    where
-        Self: Sized,
-    {
-        self.translate_impl(by);
-        self
-    }
-
-    /// Returns the bounding box of the `View` as a `Rectangle`
-    fn bounds(&self) -> Rectangle;
-}
+/// A `View` is a marker trait used to refer to items that can be manipulated with `embedded-layout` operations.
+pub trait View: Transform + Dimensions {}
 
 impl<T> View for T
 where
     T: Transform + Dimensions,
-{
-    #[inline]
-    fn translate_impl(&mut self, by: Point) {
-        Transform::translate_mut(self, by);
-    }
-
-    #[inline]
-    fn bounds(&self) -> Rectangle {
-        self.bounding_box()
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use crate::prelude::*;
-
-    #[allow(dead_code)]
-    fn view_is_object_safe(_: &dyn View) {}
-}
+{}

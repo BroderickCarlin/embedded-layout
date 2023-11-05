@@ -97,18 +97,18 @@ mod test {
     use crate::prelude::*;
     use embedded_graphics::{
         geometry::{AnchorPoint, Point},
-        prelude::Size,
+        prelude::{Size, Dimensions},
         primitives::Rectangle,
     };
 
     #[test]
     fn test_center() {
         fn check_center_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
-            let center_of_reference = reference.top_left + reference.size() / 2;
-            let center_of_result = result.top_left + result.size() / 2;
+            let center_of_reference = reference.top_left + reference.bounding_box().size / 2;
+            let center_of_result = result.top_left + result.bounding_box().size / 2;
 
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Horizontal coordinate matches reference
             assert_eq!(center_of_result.x, center_of_reference.x);
@@ -132,7 +132,7 @@ mod test {
     fn test_left() {
         fn check_left_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Horizontal coordinate matches reference
             assert_eq!(result.top_left.x, reference.top_left.x);
@@ -156,7 +156,7 @@ mod test {
     fn test_right() {
         fn check_right_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Horizontal coordinate matches reference
             assert_eq!(
@@ -190,7 +190,7 @@ mod test {
             result: Rectangle,
         ) {
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Left is at right + 1
             assert_eq!(
@@ -223,7 +223,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::LeftToRight, vertical::NoAlignment);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Left is at right
         assert_eq!(
@@ -241,7 +241,7 @@ mod test {
         let result = rect2.align_to(&rect1, horizontal::LeftToRight, vertical::NoAlignment);
 
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Left is at right
         assert_eq!(
@@ -263,7 +263,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::RightToLeft, vertical::NoAlignment);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Left is at right - 1
         assert_eq!(
@@ -280,7 +280,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::RightToLeft, vertical::NoAlignment);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Left is at right + 1
         assert_eq!(
@@ -302,7 +302,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::RightToLeft, vertical::NoAlignment);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Left is at right
         assert_eq!(
@@ -319,7 +319,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::RightToLeft, vertical::NoAlignment);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Left is at right + 1
         assert_eq!(

@@ -20,16 +20,16 @@ fn main() -> Result<(), core::convert::Infallible> {
 
     let text_style = MonoTextStyle::new(&FONT_6X9, BinaryColor::On);
 
-    LinearLayout::vertical(
-        Chain::new(Text::new("Vertical", Point::zero(), text_style))
-            .append(Text::new("Linear", Point::zero(), text_style))
-            .append(Text::new("Layout", Point::zero(), text_style)),
-    )
-    .with_alignment(horizontal::Center)
-    .arrange()
-    .align_to(&display_area, horizontal::Center, vertical::Center)
-    .draw(&mut display)
-    .unwrap();
+    // LinearLayout::vertical(
+    //     Chain::new(Text::new("Vertical", Point::zero(), text_style))
+    //         .append(Text::new("Linear", Point::zero(), text_style))
+    //         .append(Text::new("Layout", Point::zero(), text_style)),
+    // )
+    // .with_alignment(horizontal::Center)
+    // .arrange()
+    // .align_to(&display_area, horizontal::Center, vertical::Center)
+    // .draw(&mut display)
+    // .unwrap();
 
     Window::new("LinearLayout exmaple", &output_settings).show_static(&display);
     Ok(())

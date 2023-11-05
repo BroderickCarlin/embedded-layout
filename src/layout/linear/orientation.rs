@@ -34,17 +34,17 @@ pub trait Orientation: Copy + Clone {
 
     /// Place view
     #[inline]
-    fn place(
+    fn place<V: View>(
         &self,
-        view: &mut dyn View,
+        view: &mut V,
         size: Size,
         previous: Rectangle,
         n: usize,
         count: usize,
     ) -> Rectangle {
-        let offset = self.compute_offset(view.bounds(), size, previous, n, count);
-        view.translate_impl(offset);
-        view.bounds()
+        let offset = self.compute_offset(view.bounding_box(), size, previous, n, count);
+        view.translate(offset);
+        view.bounding_box()
     }
 }
 

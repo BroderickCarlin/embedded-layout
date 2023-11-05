@@ -40,19 +40,19 @@ fn main() -> Result<(), core::convert::Infallible> {
     let text = Text::new("embedded-layout", Point::zero(), text_style);
 
     // The layout
-    LinearLayout::vertical(
-        Chain::new(text)
-            .append(LinearLayout::horizontal(Chain::new(triangle).append(circle)).arrange())
-            .append(
-                Chain::new(triangle2.align_to(&circle2, horizontal::Center, vertical::Top))
-                    .append(circle2),
-            ),
-    )
-    .with_alignment(horizontal::Center)
-    .arrange()
-    .align_to(&display_area, horizontal::Center, vertical::Center)
-    .draw(&mut display)
-    .unwrap();
+    // LinearLayout::vertical(
+    //     Chain::new(text)
+    //         .append(LinearLayout::horizontal(Chain::new(triangle).append(circle)).arrange())
+    //         .append(
+    //             Chain::new(triangle2.align_to(&circle2, horizontal::Center, vertical::Top))
+    //                 .append(circle2),
+    //         ),
+    // )
+    // .with_alignment(horizontal::Center)
+    // .arrange()
+    // .align_to(&display_area, horizontal::Center, vertical::Center)
+    // .draw(&mut display)
+    // .unwrap();
 
     Window::new("Layout example", &output_settings).show_static(&display);
     Ok(())

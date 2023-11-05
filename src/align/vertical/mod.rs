@@ -97,18 +97,18 @@ mod test {
     use crate::prelude::*;
     use embedded_graphics::{
         geometry::{AnchorPoint, Point},
-        prelude::Size,
+        prelude::{Size, Dimensions},
         primitives::Rectangle,
     };
 
     #[test]
     fn test_center() {
         fn check_center_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
-            let center_of_reference = reference.top_left + reference.size() / 2;
-            let center_of_result = result.top_left + result.size() / 2;
+            let center_of_reference = reference.top_left + reference.bounding_box().size / 2;
+            let center_of_result = result.top_left + result.bounding_box().size / 2;
 
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Vertical coordinate matches reference
             assert_eq!(center_of_result.y, center_of_reference.y);
@@ -133,7 +133,7 @@ mod test {
     fn test_top() {
         fn check_top_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Vertical coordinate matches reference
             assert_eq!(result.top_left.y, reference.top_left.y);
@@ -157,7 +157,7 @@ mod test {
     fn test_bottom() {
         fn check_bottom_alignment(source: Rectangle, reference: Rectangle, result: Rectangle) {
             // The size hasn't changed
-            assert_eq!(result.size(), source.size());
+            assert_eq!(result.bounding_box().size, source.bounding_box().size);
 
             // Vertical coordinate matches reference
             assert_eq!(
@@ -190,7 +190,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::NoAlignment, vertical::TopToBottom);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Top is at bottom + 1
         assert_eq!(
@@ -207,7 +207,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::NoAlignment, vertical::TopToBottom);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Top is at bottom + 1
         assert_eq!(
@@ -229,7 +229,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::NoAlignment, vertical::TopToBottom);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Top is at bottom
         assert_eq!(
@@ -246,7 +246,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::NoAlignment, vertical::TopToBottom);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Top is at bottom + 1
         assert_eq!(
@@ -268,7 +268,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::NoAlignment, vertical::BottomToTop);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Bottom is at top - 1
         assert_eq!(
@@ -285,7 +285,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::NoAlignment, vertical::BottomToTop);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Bottom is at top - 1
         assert_eq!(
@@ -307,7 +307,7 @@ mod test {
 
         let result = rect1.align_to(&rect2, horizontal::NoAlignment, vertical::BottomToTop);
         // The size hasn't changed
-        assert_eq!(result.size(), rect1.size());
+        assert_eq!(result.bounding_box().size, rect1.bounding_box().size);
 
         // Bottom is at top
         assert_eq!(
@@ -324,7 +324,7 @@ mod test {
         // Test the other direction
         let result = rect2.align_to(&rect1, horizontal::NoAlignment, vertical::BottomToTop);
         // The size hasn't changed
-        assert_eq!(result.size(), rect2.size());
+        assert_eq!(result.bounding_box().size, rect2.bounding_box().size);
 
         // Bottom is at top - 1
         assert_eq!(

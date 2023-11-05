@@ -12,7 +12,7 @@ use embedded_graphics::{
     pixelcolor::BinaryColor,
     prelude::{Dimensions, Point, Primitive, Size},
     primitives::{PrimitiveStyle, Rectangle},
-    Drawable,
+    Drawable, transform::Transform,
 };
 use embedded_layout::{
     layout::linear::{spacing::FixedMargin, LinearLayout},
@@ -40,17 +40,24 @@ impl ProgressBar {
     }
 }
 
-/// Implementing `View` is required by the layout and alignment operations
-/// `View` teaches `embedded-layout` where our object is, how big it is and how to move it.
-impl View for ProgressBar {
-    #[inline]
-    fn translate_impl(&mut self, by: Point) {
-        // make sure you don't accidentally call `translate`!
-        self.bounds.translate_mut(by);
+// Implementing [`Transform`] is required to make [`ProgressBar`] a [`View`]
+impl Transform for ProgressBar {
+    fn translate(&self, by: Point) -> Self {
+        Self {
+            progress: self.progress,
+            bounds: self.bounds.translate(by)
+        }
     }
 
-    #[inline]
-    fn bounds(&self) -> Rectangle {
+    fn translate_mut(&mut self, by: Point) -> &mut Self {
+        self.bounds.translate_mut(by);
+        self
+    }
+}
+
+// Implementing [`Dimensions`] is required to make [`ProgressBar`] a [`View`]
+impl Dimensions for ProgressBar {
+    fn bounding_box(&self) -> Rectangle {
         self.bounds
     }
 }
@@ -73,8 +80,8 @@ impl Drawable for ProgressBar {
             Point::zero(),
             // sizes are calculated so that the rectangle will have a 1px margin
             Size::new(
-                (self.bounds.size().width - 4) * self.progress / 100,
-                self.bounds.size().height - 4,
+                (self.bounds.bounding_box().size.width - 4) * self.progress / 100,
+                self.bounds.bounding_box().size.height - 4,
             ),
         )
         .into_styled(progress_style);
@@ -109,18 +116,18 @@ fn main() -> Result<(), core::convert::Infallible> {
     let progress3 = ProgressBar::new(Point::zero(), Size::new(32, 6)).with_progress(50);
     let progress4 = ProgressBar::new(Point::zero(), Size::new(32, 6)).with_progress(100);
 
-    // Arrange on display and draw
-    LinearLayout::vertical(
-        Chain::new(progress1)
-            .append(progress2)
-            .append(progress3)
-            .append(progress4),
-    )
-    .with_spacing(FixedMargin(4))
-    .arrange()
-    .align_to(&display_area, horizontal::Center, vertical::Center)
-    .draw(&mut display)
-    .unwrap();
+    // // Arrange on display and draw
+    // LinearLayout::vertical(
+    //     Chain::new(progress1)
+    //         .append(progress2)
+    //         .append(progress3)
+    //         .append(progress4),
+    // )
+    // .with_spacing(FixedMargin(4))
+    // .arrange()
+    // .align_to(&display_area, horizontal::Center, vertical::Center)
+    // .draw(&mut display)
+    // .unwrap();
 
     Window::new("Custom View example", &output_settings).show_static(&display);
     Ok(())
