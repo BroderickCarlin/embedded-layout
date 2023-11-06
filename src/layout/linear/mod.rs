@@ -84,9 +84,10 @@ pub mod spacing;
 
 use embedded_graphics::{
     draw_target::DrawTarget,
-    prelude::{PixelColor, Point, Dimensions},
+    prelude::{Dimensions, PixelColor, Point},
     primitives::Rectangle,
-    Drawable, transform::Transform,
+    transform::Transform,
+    Drawable,
 };
 pub use orientation::{Horizontal, Orientation, Vertical};
 pub use secondary_alignment::SecondaryAlignment;
@@ -345,7 +346,7 @@ where
     // }
 }
 
-impl<LD, VG> Transform for LinearLayout<LD, VG> 
+impl<LD, VG> Transform for LinearLayout<LD, VG>
 where
     LD: Orientation,
     VG: View,
@@ -358,7 +359,7 @@ where
             views: self.views.translate(by),
         }
     }
-    
+
     #[inline]
     fn translate_mut(&mut self, by: Point) -> &mut Self {
         self.position += by;
@@ -367,7 +368,7 @@ where
     }
 }
 
-impl<LD, VG> Dimensions for LinearLayout<LD, VG> 
+impl<LD, VG> Dimensions for LinearLayout<LD, VG>
 where
     LD: Orientation,
     VG: View,

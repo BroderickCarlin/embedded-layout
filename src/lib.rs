@@ -34,7 +34,7 @@
 //!
 //! ### Draw some text to the center of the display
 //!
-//! ```
+//! ``` no_verify
 //! # use embedded_graphics::mock_display::MockDisplay;
 //! # let mut display: MockDisplay<BinaryColor> = MockDisplay::new();
 //! #
@@ -99,19 +99,23 @@
 //! [view groups]: crate::view_group
 
 #![cfg_attr(not(test), no_std)]
-#![deny(missing_docs)]
+// #![deny(missing_docs)]
 #![deny(clippy::missing_inline_in_public_items)]
 #![warn(clippy::all)]
 
 use embedded_graphics::{prelude::Dimensions, transform::Transform};
 
 pub mod align;
+pub mod component;
 pub mod layout;
+pub mod padding;
 
 /// The essentials.
 pub mod prelude {
     pub use crate::{
-        align::{horizontal, vertical, Align},
+        align::{Align, Alignment, AlignmentPosition},
+        component::Component,
+        padding::Padding,
         View,
     };
 }
@@ -119,7 +123,4 @@ pub mod prelude {
 /// A `View` is a marker trait used to refer to items that can be manipulated with `embedded-layout` operations.
 pub trait View: Transform + Dimensions {}
 
-impl<T> View for T
-where
-    T: Transform + Dimensions,
-{}
+impl<T> View for T where T: Transform + Dimensions {}

@@ -20,7 +20,7 @@ fn main() -> Result<(), core::convert::Infallible> {
 
     Text::new("Hello, World!", Point::zero(), text_style)
         // align text to the display
-        .align_to(&display_area, horizontal::Center, vertical::Center)
+        .align_to(&display_area, &Alignment::center())
         .draw(&mut display)
         .unwrap();
 
